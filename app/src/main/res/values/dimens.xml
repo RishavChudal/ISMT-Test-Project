@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widget_size_normal">56dp</dimen>
+    <dimen name="widget_margin_normal">16dp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+</resources>
