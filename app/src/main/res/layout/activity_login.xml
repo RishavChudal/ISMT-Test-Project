@@ -4,8 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@color/white"
     tools:context=".LoginActivity">
 
     <TextView
@@ -69,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_password"
         android:layout_margin="@dimen/widget_margin_normal"
         android:background="@color/purple_200"
-        android:inputType="textPassword" />
+        android:inputType="numberPassword" />
 
     <Button
         android:id="@+id/btn_login"
