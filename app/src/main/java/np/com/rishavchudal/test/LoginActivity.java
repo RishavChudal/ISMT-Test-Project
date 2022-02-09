@@ -91,9 +91,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onLoginButtonClicked() {
         Log.d(tagName, "Button is clicked");
-        String email = etEmail.getText().toString();
+        String email = etEmail.getText().toString().trim();
         Log.d(tagName, "Email ::: " + email);
-        String password = etPassword.getText().toString();
+        String password = etPassword.getText().toString().trim();
         Log.d(tagName, "Password ::: " + password);
         if (email.equalsIgnoreCase("rishav@ismt.edu.np") && password.equals("12345")) {
             Log.d(tagName, "Login Success");
