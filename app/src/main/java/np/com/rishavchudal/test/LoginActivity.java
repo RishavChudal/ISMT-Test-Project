@@ -4,6 +4,7 @@ import static np.com.rishavchudal.test.R.color.white;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -84,6 +85,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 Log.d(tagName, "Button is Long Clicked");
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_EMAIL, "rishavchudal@ismt.edu.np");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "This is a dummy message");
+                intent.putExtra(Intent.EXTRA_TEXT, "Dummy test message");
+                startActivity(intent);
                 return true;
             }
         });
@@ -98,9 +105,22 @@ public class LoginActivity extends AppCompatActivity {
         if (email.equalsIgnoreCase("rishav@ismt.edu.np") && password.equals("12345")) {
             Log.d(tagName, "Login Success");
             Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
+            startDashboard();
         } else {
             Log.d(tagName, "Login Failure");
             Toast.makeText(this, "Login Failure", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Toast.makeText(this, "Do you want to exit?", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startDashboard() {
+        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
