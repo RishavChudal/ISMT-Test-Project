@@ -1,9 +1,10 @@
-package np.com.rishavchudal.test;
+package np.com.rishavchudal.test.login;
 
 import static np.com.rishavchudal.test.R.color.white;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,18 +14,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+import np.com.rishavchudal.test.DashboardActivity;
+import np.com.rishavchudal.test.R;
+
+public class LoginActivity extends AppCompatActivity implements LoginViewInterface{
     private final static String tagName = "LoginActivity";
     private TextView tvTitle;
     private EditText etEmail;
     private EditText etPassword;
     private Button btnLogin;
+    private LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Log.d(tagName, "On Create is called");
+        assignPresenter();
         initViews();
         assignPageTitle();
         initLoginButtonAction();
@@ -58,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(tagName, "On Destroy is called");
+    }
+
+    private void assignPresenter() {
+        loginPresenter = new LoginPresenter(this);
     }
 
     private void initViews() {
@@ -102,14 +112,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(tagName, "Email ::: " + email);
         String password = etPassword.getText().toString().trim();
         Log.d(tagName, "Password ::: " + password);
-        if (email.equalsIgnoreCase("rishav@ismt.edu.np") && password.equals("12345")) {
-            Log.d(tagName, "Login Success");
-            Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-            startDashboard();
-        } else {
-            Log.d(tagName, "Login Failure");
-            Toast.makeText(this, "Login Failure", Toast.LENGTH_SHORT).show();
-        }
+        LoginModel loginModel = new LoginModel(email, password);
+        loginPresenter.validateLoginCredentials(loginModel);
     }
 
     @Override
@@ -123,4 +127,35 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public Context getViewContext() {
+        return LoginActivity.this;
+    }
+
+    @Override
+    public void showCredentialsAreEmpty() {
+        Toast.makeText(this, "Email or Password is Empty", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showEmailIsIncorrect() {
+        Toast.makeText(this, "Email is Incorrect", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPasswordIsIncorrect() {
+        Toast.makeText(this, "Password is Incorrect", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDashboardPage() {
+        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+        startDashboard();
+    }
+
+    /*
+        MVP - Model, View & Presenter
+        MVVM - Model, View & View Model
+     */
 }
