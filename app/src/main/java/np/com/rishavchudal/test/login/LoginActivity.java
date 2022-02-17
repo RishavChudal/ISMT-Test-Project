@@ -66,6 +66,44 @@ public class LoginActivity extends AppCompatActivity implements LoginViewInterfa
         Log.d(tagName, "On Destroy is called");
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Toast.makeText(this, "Do you want to exit?", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startDashboard() {
+        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public Context getViewContext() {
+        return LoginActivity.this;
+    }
+
+    @Override
+    public void showCredentialsAreEmpty() {
+        Toast.makeText(this, "Email or Password is Empty", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showEmailIsIncorrect() {
+        Toast.makeText(this, "Email is Incorrect", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPasswordIsIncorrect() {
+        Toast.makeText(this, "Password is Incorrect", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDashboardPage() {
+        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+        startDashboard();
+    }
+
     private void assignPresenter() {
         loginPresenter = new LoginPresenter(this);
     }
@@ -114,44 +152,6 @@ public class LoginActivity extends AppCompatActivity implements LoginViewInterfa
         Log.d(tagName, "Password ::: " + password);
         LoginModel loginModel = new LoginModel(email, password);
         loginPresenter.validateLoginCredentials(loginModel);
-    }
-
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
-        Toast.makeText(this, "Do you want to exit?", Toast.LENGTH_SHORT).show();
-    }
-
-    private void startDashboard() {
-        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public Context getViewContext() {
-        return LoginActivity.this;
-    }
-
-    @Override
-    public void showCredentialsAreEmpty() {
-        Toast.makeText(this, "Email or Password is Empty", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showEmailIsIncorrect() {
-        Toast.makeText(this, "Email is Incorrect", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showPasswordIsIncorrect() {
-        Toast.makeText(this, "Password is Incorrect", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showDashboardPage() {
-        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
-        startDashboard();
     }
 
     /*

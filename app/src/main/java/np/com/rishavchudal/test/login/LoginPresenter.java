@@ -19,6 +19,18 @@ class LoginPresenter {
             return;
         }
 
+        /**
+         * In Case of Backend Connection
+         */
+        /*BackEndConnection backEndConnection = new BackEndConnection();
+        LoginResponse loginResponse = backEndConnection.verifyLogin(loginModel);*/
+
+        /**
+         * In Case of DB Validation
+         */
+        /*DbConnection dbConnection = new DbConnection();
+        LoginResponse loginResponse1 = dbConnection.verifyLogin(loginModel);*/
+
         if (!emailAddress.equalsIgnoreCase("rishav@ismt.edu.np")) {
             loginViewInterface.showEmailIsIncorrect();
             return;
