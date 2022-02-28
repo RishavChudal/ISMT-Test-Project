@@ -14,6 +14,9 @@
             android:exported="false" />
         <activity
             android:name=".login.LoginActivity"
+            android:exported="false">
+        </activity>
+        <activity android:name=".mvvm.LoginMvvmActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

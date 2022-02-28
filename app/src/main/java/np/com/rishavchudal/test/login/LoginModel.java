@@ -3,7 +3,7 @@ package np.com.rishavchudal.test.login;
 /**
  * Created by Rishav Chudal on 14/02/2022.
  */
-class LoginModel {
+public class LoginModel {
     private final String emailAddress;
     private final String password;
 
