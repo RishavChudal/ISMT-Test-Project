@@ -1,4 +1,4 @@
-package np.com.rishavchudal.test.mvvm;
+package np.com.rishavchudal.test.presentation.login;
 
 import static np.com.rishavchudal.test.R.color.white;
 
@@ -16,10 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import np.com.rishavchudal.test.DashboardActivity;
+import np.com.rishavchudal.test.presentation.dashboard.DashboardActivity;
 import np.com.rishavchudal.test.R;
-import np.com.rishavchudal.test.login.LoginActivity;
-import np.com.rishavchudal.test.login.LoginModel;
 
 /**
  * Created by Rishav Chudal on 28/02/2022.
@@ -127,8 +125,7 @@ public class LoginMvvmActivity extends AppCompatActivity {
         Log.d(tagName, "Email ::: " + email);
         String password = etPassword.getText().toString().trim();
         Log.d(tagName, "Password ::: " + password);
-        LoginModel loginModel = new LoginModel(email, password);
-        loginViewModel.validateLoginCredentials(loginModel);
+        loginViewModel.validateLoginCredentials(email, password);
     }
 
     private void observeMutableLiveData() {

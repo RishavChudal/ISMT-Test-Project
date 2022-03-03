@@ -1,9 +1,11 @@
-package np.com.rishavchudal.test;
+package np.com.rishavchudal.test.presentation.dashboard;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Toast;
+
+import np.com.rishavchudal.test.R;
 
 public class DashboardActivity extends AppCompatActivity {
 

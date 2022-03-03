@@ -1,10 +1,14 @@
-package np.com.rishavchudal.test.mvvm;
+package np.com.rishavchudal.test.presentation.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import np.com.rishavchudal.test.login.LoginModel;
+import np.com.rishavchudal.data.LoginRepositoryImpl;
+import np.com.rishavchudal.domain.models.LoginModel;
+import np.com.rishavchudal.domain.usecases.LoginAuthenticateUseCase;
+import np.com.rishavchudal.test.framework.LoginLocalDataSourceImpl;
+import np.com.rishavchudal.test.framework.LoginRemoteDataSourceImpl;
 
 /**
  * Created by Rishav Chudal on 28/02/2022.
@@ -15,10 +19,14 @@ public class LoginViewModel extends ViewModel {
     final MutableLiveData<Boolean> isPasswordIncorrect = new MutableLiveData<>();
     final MutableLiveData<Boolean> isLoginSuccess = new MutableLiveData<>();
 
+    private LoginAuthenticateUseCase loginAuthenticateUseCase = new LoginAuthenticateUseCase(
+            new LoginRepositoryImpl(
+                    new LoginRemoteDataSourceImpl(),
+                    new LoginLocalDataSourceImpl()
+            )
+    );
 
-    public void validateLoginCredentials(LoginModel loginModel) {
-        String emailAddress = loginModel.getEmailAddress();
-        String password = loginModel.getPassword();
+    public void validateLoginCredentials(String emailAddress, String password) {
         if (emailAddress.isEmpty() || password.isEmpty()) {
             isEmailOrPasswordEmpty.setValue(true);
             return;
@@ -51,6 +59,7 @@ public class LoginViewModel extends ViewModel {
         } else {
             isPasswordIncorrect.setValue(false);
         }
-        isLoginSuccess.setValue(true);
+        LoginModel loginModel = loginAuthenticateUseCase.authenticateLogin(emailAddress, password);
+        isLoginSuccess.setValue(loginModel.isLoginSuccess());
     }
 }
