@@ -1,10 +1,9 @@
 package np.com.rishavchudal.test.presentation.login;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import np.com.rishavchudal.data.LoginRepositoryImpl;
+import np.com.rishavchudal.data.repositories.LoginRepositoryImpl;
 import np.com.rishavchudal.domain.models.LoginModel;
 import np.com.rishavchudal.domain.usecases.LoginAuthenticateUseCase;
 import np.com.rishavchudal.test.framework.LoginLocalDataSourceImpl;

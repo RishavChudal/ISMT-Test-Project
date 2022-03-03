@@ -16,11 +16,8 @@ import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import np.com.rishavchudal.data.LoginRepositoryImpl;
 import np.com.rishavchudal.domain.models.LoginModel;
 import np.com.rishavchudal.domain.usecases.LoginAuthenticateUseCase;
-import np.com.rishavchudal.test.framework.LoginLocalDataSourceImpl;
-import np.com.rishavchudal.test.framework.LoginRemoteDataSourceImpl;
 
 /**
  * Created by Rishav Chudal on 03/03/2022.
@@ -54,18 +51,44 @@ public class LoginViewModelTest {
     }
 
     @Test
-    public void validateLoginCredentials() {
+    public void validateLoginCredentials_OnEmailEmpty_isEmailOrPasswordEmptyLiveDataChangesToTrue() {
+        //setup
+        String emailAddress = "";
+        String password = "12345";
+
+        //test
+        loginViewModel.validateLoginCredentials(emailAddress, password);
+
+        //verify
+        verify(isEmailOrPasswordEmptyObserver).onChanged(true);
+    }
+
+    @Test
+    public void validateLoginCredentials_OnPasswordEmpty_isEmailOrPasswordEmptyLiveDataChangesToTrue() {
+        //setup
+        String emailAddress = "rishavchudal@ismt.edu.np";
+        String password = "";
+
+        //test
+        loginViewModel.validateLoginCredentials(emailAddress, password);
+
+        //verify
+        verify(isEmailOrPasswordEmptyObserver).onChanged(true);
+    }
+
+    //TODO Change, Will refactor later
+    @Test
+    public void validateLoginCredentials_onLoginSuccess_isLoginSuccessLiveDataChangedToTrue() {
+        //setup
         String emailAddress = "rishav@ismt.edu.np";
         String password = "12345";
         LoginModel loginModel = new LoginModel(true, "Login Successful");
         when(loginAuthenticateUseCase.authenticateLogin(any(), any())).thenReturn(loginModel);
 
-
+        //test
         loginViewModel.validateLoginCredentials(emailAddress, password);
 
-//        verify(isEmailOrPasswordEmptyObserver).onChanged(true);
-//        verify(isEmailIncorrectObserver).onChanged(true);
-
+        //verify
         verify(isLoginSuccessObserver).onChanged(true);
 
     }

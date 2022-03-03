@@ -1,4 +1,4 @@
-package np.com.rishavchudal.data;
+package np.com.rishavchudal.data.repositories;
 
 import np.com.rishavchudal.data.sources.LoginLocalDataSource;
 import np.com.rishavchudal.data.sources.LoginRemoteDataSource;
