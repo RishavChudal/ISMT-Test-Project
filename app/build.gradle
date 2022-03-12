@@ -38,6 +38,22 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:2.5.0-alpha03"
     implementation project(":domain")
     implementation project(":data")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    def nav_version = "2.4.1"
+
+    // Java language implementation
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
+    // Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    // Jetpack Compose Integration
+    implementation "androidx.navigation:navigation-compose:$nav_version"
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
