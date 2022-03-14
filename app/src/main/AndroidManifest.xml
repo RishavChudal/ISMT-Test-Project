@@ -12,10 +12,6 @@
         <activity
             android:name=".presentation.dashboard.DashboardActivity"
             android:exported="false" />
-        <activity
-            android:name=".login.LoginActivity"
-            android:exported="false">
-        </activity>
         <activity android:name=".presentation.login.LoginMvvmActivity"
             android:exported="true">
             <intent-filter>

@@ -8,33 +8,61 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="np.com.rishavchudal.test.presentation.dashboard.HomeFragment"
-        android:label="fragment_home"
+        android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_factsDetailsFragment"
             app:destination="@id/factsDetailsFragment" />
+        <argument
+            android:name="@string/args_show_toolbar"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="@string/args_show_bottom_navigation_view"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+
     </fragment>
 
     <fragment
         android:id="@+id/notificationFragment"
         android:name="np.com.rishavchudal.test.presentation.dashboard.NotificationFragment"
-        android:label="fragment_notification"
+        android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notification" >
         <action
             android:id="@+id/action_notificationFragment_to_notificationDetailFragment"
             app:destination="@id/notificationDetailFragment" />
+        <argument
+            android:name="@string/args_show_toolbar"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="@string/args_show_bottom_navigation_view"
+            app:argType="boolean"
+            android:defaultValue="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="np.com.rishavchudal.test.presentation.dashboard.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="@string/args_show_toolbar"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="@string/args_show_bottom_navigation_view"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+    </fragment>
+
     <fragment
         android:id="@+id/factsDetailsFragment"
         android:name="np.com.rishavchudal.test.FactsDetailsFragment"
         android:label="fragment_facts_details"
         tools:layout="@layout/fragment_facts_details" />
+
     <fragment
         android:id="@+id/notificationDetailFragment"
         android:name="np.com.rishavchudal.test.NotificationDetailFragment"
