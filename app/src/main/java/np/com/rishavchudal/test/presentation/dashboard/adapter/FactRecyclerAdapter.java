@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import np.com.rishavchudal.domain.models.Fact;
+import np.com.rishavchudal.domain.models.facts.Fact;
 import np.com.rishavchudal.test.R;
 
 /**

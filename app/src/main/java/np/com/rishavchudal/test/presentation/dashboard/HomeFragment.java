@@ -3,21 +3,26 @@ package np.com.rishavchudal.test.presentation.dashboard;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import np.com.rishavchudal.test.R;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import np.com.rishavchudal.domain.models.facts.Fact;
+import np.com.rishavchudal.test.R;
+import np.com.rishavchudal.test.presentation.dashboard.adapter.FactRecyclerAdapter;
+
 public class HomeFragment extends Fragment {
     private Button btnHomeFragment;
+    private RecyclerView factsRecyclerView;
+    private DashboardViewModel dashboardViewModel;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -30,6 +35,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initViewModel();
     }
 
     @Override
@@ -39,11 +45,18 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initWidgets(view);
         initButtonAction();
+        observeMutableLiveDatas();
+        fetchFacts();
         return view;
+    }
+
+    private void initViewModel() {
+        dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
     }
 
     private void initWidgets(View view) {
         btnHomeFragment = view.findViewById(R.id.btn_home_fragment);
+        factsRecyclerView = view.findViewById(R.id.facts_recycler_view);
     }
 
     private void initButtonAction() {
@@ -53,5 +66,31 @@ public class HomeFragment extends Fragment {
 
             }
         });
+    }
+
+    private void observeMutableLiveDatas() {
+        dashboardViewModel.getFactsLiveData().observe(
+                this,
+                new Observer<List<Fact>>() {
+                    @Override
+                    public void onChanged(List<Fact> facts) {
+                        loadRecyclerViewWithValidFacts(facts);
+                    }
+                }
+        );
+    }
+
+    private void loadRecyclerViewWithValidFacts(List<Fact> facts) {
+        if (facts.isEmpty()) {
+            return;
+        }
+        FactRecyclerAdapter factRecyclerAdapter = new FactRecyclerAdapter(facts);
+        factsRecyclerView.setAdapter(factRecyclerAdapter);
+        factsRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        factRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    private void fetchFacts() {
+        dashboardViewModel.fetchFacts();
     }
 }

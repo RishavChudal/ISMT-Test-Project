@@ -1,4 +1,4 @@
-package np.com.rishavchudal.domain.models;
+package np.com.rishavchudal.domain.models.facts;
 
 /**
  * Created by Rishav Chudal on 21/03/2022.
