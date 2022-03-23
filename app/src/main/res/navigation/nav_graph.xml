@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="np.com.rishavchudal.test.presentation.dashboard.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_factsDetailsFragment"
+            app:destination="@id/factsDetailsFragment" />
+        <argument
+            android:name="@string/args_show_toolbar"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="@string/args_show_bottom_navigation_view"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="np.com.rishavchudal.test.presentation.dashboard.NotificationFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_notificationFragment_to_notificationDetailFragment"
+            app:destination="@id/notificationDetailFragment" />
+        <argument
+            android:name="@string/args_show_toolbar"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="@string/args_show_bottom_navigation_view"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="np.com.rishavchudal.test.presentation.dashboard.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="@string/args_show_toolbar"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="@string/args_show_bottom_navigation_view"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/factsDetailsFragment"
+        android:name="np.com.rishavchudal.test.FactsDetailsFragment"
+        android:label="fragment_facts_details"
+        tools:layout="@layout/fragment_facts_details" />
+
+    <fragment
+        android:id="@+id/notificationDetailFragment"
+        android:name="np.com.rishavchudal.test.NotificationDetailFragment"
+        android:label="fragment_notification_detail"
+        tools:layout="@layout/fragment_notification_detail" />
+
+</navigation>

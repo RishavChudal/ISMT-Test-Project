@@ -3,4 +3,6 @@
     <dimen name="widget_size_normal">56dp</dimen>
     <dimen name="widget_margin_normal">16dp</dimen>
     <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="bottom_nav_height">56dp</dimen>
+    <dimen name="item_height">200dp</dimen>
 </resources>
