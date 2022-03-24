@@ -14,8 +14,8 @@ import np.com.rishavchudal.domain.models.User;
 @Dao
 public interface UserDao {
     @Insert
-    long insertUser(User user);
+    long insertUser(UserEntity userEntity);
 
     @Query("Select * from userentity where user_id = :userId")
-    User getUserDetails(long userId);
+    UserEntity getUserDetails(long userId);
 }

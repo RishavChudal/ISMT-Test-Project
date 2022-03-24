@@ -12,4 +12,5 @@ import androidx.room.RoomDatabase;
 )
 public abstract class FactDatabase extends RoomDatabase {
     public abstract UserDao getUserDao();
+    public abstract LoginDao getLoginDao();
 }
