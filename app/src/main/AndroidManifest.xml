@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
         <activity
+            android:name=".presentation.registration.RegistrationActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.dashboard.DashboardActivity"
             android:exported="false" />
-        <activity android:name=".presentation.login.LoginMvvmActivity"
+        <activity
+            android:name=".presentation.login.LoginMvvmActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

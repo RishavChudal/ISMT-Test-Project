@@ -2,14 +2,16 @@ package np.com.rishavchudal.test.framework.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import np.com.rishavchudal.domain.models.User;
 
 /**
  * Created by Rishav Chudal on 23/03/2022.
  */
-@Entity
+@Entity(tableName = "user")
 public class UserEntity {
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "user_id")
     private long userId;
 
@@ -22,15 +24,22 @@ public class UserEntity {
     @ColumnInfo(name = "address")
     private String address;
 
-    public UserEntity(long userId, String emailAddress, String fullName, String address) {
-        this.userId = userId;
+    @ColumnInfo(name = "password")
+    private String password;
+
+    public UserEntity(String emailAddress, String fullName, String address, String password) {
         this.emailAddress = emailAddress;
         this.fullName = fullName;
         this.address = address;
+        this.password = password;
     }
 
     public long getUserId() {
         return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getEmailAddress() {
@@ -45,12 +54,7 @@ public class UserEntity {
         return address;
     }
 
-    public static UserEntity mapDomainToFrameWork(User user) {
-        return new UserEntity(
-                user.getUserId(),
-                user.getEmailAddress(),
-                user.getFullName(),
-                user.getAddress()
-        );
+    public String getPassword() {
+        return password;
     }
 }

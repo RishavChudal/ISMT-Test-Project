@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import np.com.rishavchudal.test.R;
 
 public class DashboardActivity extends AppCompatActivity {
+    public static String EXTRA_DATA_USER = "extra_data_user";
     private BottomNavigationView bottomNavigationView;
     private FragmentContainerView navHostContainerView;
     private NavHostFragment navHostFragment;

@@ -5,6 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import android.app.Application;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
 
@@ -36,18 +38,21 @@ public class LoginViewModelTest {
     Observer<Boolean> isEmailIncorrectObserver;
 
     @Mock
-    Observer<Boolean> isLoginSuccessObserver;
+    Observer<LoginModel> loginModelObserver;
 
     @Mock
     LoginAuthenticateUseCase loginAuthenticateUseCase;
 
+    @Mock
+    Application application;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        loginViewModel = new LoginViewModel();
-        loginViewModel.isEmailOrPasswordEmpty.observeForever(isEmailOrPasswordEmptyObserver);
-        loginViewModel.isEmailIncorrect.observeForever(isEmailIncorrectObserver);
-        loginViewModel.isLoginSuccess.observeForever(isLoginSuccessObserver);
+        loginViewModel = new LoginViewModel(application);
+        loginViewModel.isEmailOrPasswordEmptyLiveData.observeForever(isEmailOrPasswordEmptyObserver);
+        loginViewModel.isEmailIncorrectLiveData.observeForever(isEmailIncorrectObserver);
+        loginViewModel.loginModelLiveData.observeForever(loginModelObserver);
     }
 
     @Test
@@ -89,7 +94,7 @@ public class LoginViewModelTest {
         loginViewModel.validateLoginCredentials(emailAddress, password);
 
         //verify
-        verify(isLoginSuccessObserver).onChanged(true);
+        verify(loginModelObserver).onChanged(loginModel);
 
     }
 }

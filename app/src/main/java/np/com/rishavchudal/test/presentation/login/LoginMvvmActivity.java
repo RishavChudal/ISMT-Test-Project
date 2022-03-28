@@ -2,6 +2,7 @@ package np.com.rishavchudal.test.presentation.login;
 
 import static np.com.rishavchudal.test.R.color.white;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +13,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.wajahatkarim3.roomexplorer.RoomExplorer;
+
+import np.com.rishavchudal.domain.models.LoginModel;
+import np.com.rishavchudal.domain.models.User;
+import np.com.rishavchudal.test.framework.database.FactDatabase;
 import np.com.rishavchudal.test.presentation.dashboard.DashboardActivity;
 import np.com.rishavchudal.test.R;
+import np.com.rishavchudal.test.presentation.registration.RegistrationActivity;
 
 /**
  * Created by Rishav Chudal on 28/02/2022.
@@ -29,6 +38,7 @@ public class LoginMvvmActivity extends AppCompatActivity {
     private EditText etPassword;
     private Button btnLogin;
     private LoginViewModel loginViewModel;
+    private TextView tvRegister;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +49,7 @@ public class LoginMvvmActivity extends AppCompatActivity {
         initViews();
         assignPageTitle();
         initLoginButtonAction();
+        initRegisterClickAction();
         observeMutableLiveData();
     }
 
@@ -74,8 +85,23 @@ public class LoginMvvmActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-        Toast.makeText(this, "Do you want to exit?", Toast.LENGTH_SHORT).show();
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(LoginMvvmActivity.this)
+                .setTitle(R.string.title_exit)
+                .setMessage(R.string.msg_exit)
+                .setPositiveButton(R.string.title_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        exitApplication();
+                    }
+                })
+                .setNegativeButton(R.string.title_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        materialAlertDialogBuilder.show();
     }
 
     private void bindViewModel() {
@@ -88,6 +114,7 @@ public class LoginMvvmActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
         btnLogin = findViewById(R.id.btn_login);
+        tvRegister = findViewById(R.id.tv_register);
     }
 
     private void assignPageTitle() {
@@ -128,6 +155,25 @@ public class LoginMvvmActivity extends AppCompatActivity {
         loginViewModel.validateLoginCredentials(email, password);
     }
 
+    private void initRegisterClickAction() {
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginMvvmActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        tvRegister.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                RoomExplorer.show(LoginMvvmActivity.this, FactDatabase.class, FactDatabase.DB_NAME);
+                return false;
+            }
+        });
+    }
+
     private void observeMutableLiveData() {
         observeIsEmailOrPasswordEmptyLiveData();
         observeIsEmailIncorrect();
@@ -136,7 +182,7 @@ public class LoginMvvmActivity extends AppCompatActivity {
     }
 
     private void observeIsEmailOrPasswordEmptyLiveData() {
-        loginViewModel.isEmailOrPasswordEmpty.observe(
+        loginViewModel.isEmailOrPasswordEmptyLiveData.observe(
                 LoginMvvmActivity.this,
                 new Observer<Boolean>() {
             @Override
@@ -150,7 +196,7 @@ public class LoginMvvmActivity extends AppCompatActivity {
     }
 
     private void observeIsEmailIncorrect() {
-        loginViewModel.isEmailIncorrect.observe(
+        loginViewModel.isEmailIncorrectLiveData.observe(
                 LoginMvvmActivity.this,
                 new Observer<Boolean>() {
                     @Override
@@ -167,7 +213,7 @@ public class LoginMvvmActivity extends AppCompatActivity {
     }
 
     private void observeIsPasswordIncorrectLiveData() {
-        loginViewModel.isPasswordIncorrect.observe(
+        loginViewModel.isPasswordIncorrectLiveData.observe(
                 LoginMvvmActivity.this,
                 new Observer<Boolean>() {
                     @Override
@@ -184,28 +230,41 @@ public class LoginMvvmActivity extends AppCompatActivity {
     }
 
     private void observeIsLoginSuccessLiveData() {
-        loginViewModel.isLoginSuccess.observe(
+        loginViewModel.loginModelLiveData.observe(
                 LoginMvvmActivity.this,
-                new Observer<Boolean>() {
+                new Observer<LoginModel>() {
                     @Override
-                    public void onChanged(Boolean isLoginSuccess) {
-                        if (isLoginSuccess) {
-                            Toast.makeText(
-                                    LoginMvvmActivity.this,
-                                    "Login Success",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                            startDashboard();
-                        }
+                    public void onChanged(LoginModel loginModel) {
+                        onLoginModelChanged(loginModel);
                     }
                 });
     }
 
-    private void startDashboard() {
+    private void onLoginModelChanged(LoginModel loginModel) {
+        if (loginModel.isLoginSuccess()) {
+            Toast.makeText(
+                    LoginMvvmActivity.this,
+                    "Login Success",
+                    Toast.LENGTH_SHORT
+            ).show();
+            startDashboard(loginModel.getUser());
+            return;
+        }
+        Toast.makeText(
+                LoginMvvmActivity.this,
+                loginModel.getMessage(),
+                Toast.LENGTH_SHORT
+        ).show();
+    }
+
+    private void startDashboard(User user) {
         Intent intent = new Intent(LoginMvvmActivity.this, DashboardActivity.class);
+        intent.putExtra(DashboardActivity.EXTRA_DATA_USER, user);
         startActivity(intent);
         finish();
     }
 
-
+    private void exitApplication() {
+        finishAndRemoveTask();
+    }
 }

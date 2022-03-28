@@ -16,6 +16,6 @@ public interface UserDao {
     @Insert
     long insertUser(UserEntity userEntity);
 
-    @Query("Select * from userentity where user_id = :userId")
+    @Query("Select * from user where user_id = :userId")
     UserEntity getUserDetails(long userId);
 }

@@ -8,6 +8,6 @@ import androidx.room.Query;
  */
 @Dao
 public interface LoginDao {
-    @Query("Select * from userentity where email_address = email_address")
-    UserEntity getValidUser(String emailAddress);
+    @Query("Select * from user where email_address = :emailAddress and password = :password")
+    UserEntity getValidUser(String emailAddress, String password);
 }

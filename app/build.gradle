@@ -65,6 +65,10 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
+    //Room Explorer
+    implementation "com.wajahatkarim:roomexplorer:1.0.1"
+
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "org.mockito:mockito-core:3.4.6"

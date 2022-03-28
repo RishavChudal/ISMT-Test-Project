@@ -1,9 +1,11 @@
 package np.com.rishavchudal.domain.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Rishav Chudal on 02/03/2022.
  */
-public class User {
+public class User implements Serializable {
     private final long userId;
     private final String fullName;
     private final String emailAddress;
