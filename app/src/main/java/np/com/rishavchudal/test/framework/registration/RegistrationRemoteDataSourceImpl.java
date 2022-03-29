@@ -1,6 +1,20 @@
 package np.com.rishavchudal.test.framework.registration;
 
 import android.app.Application;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import np.com.rishavchudal.data.sources.registration.RegistrationRemoteDataSource;
 import np.com.rishavchudal.domain.models.RegistrationModel;
@@ -10,6 +24,8 @@ import np.com.rishavchudal.domain.models.RegistrationModel;
  */
 public class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
     private Application application;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
 
     public RegistrationRemoteDataSourceImpl(Application application) {
         this.application = application;
@@ -17,7 +33,7 @@ public class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataS
 
     @Override
     public boolean isInternetWorking() {
-        return false;
+        return true;
     }
 
     @Override
@@ -28,6 +44,47 @@ public class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataS
             String password
     ) {
         //TODO
-        return null;
+        final String[] userId = {""};
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(application.getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
+                    userId[0] = firebaseAuth.getCurrentUser().getUid();
+                    if (!userId[0].isEmpty()) {
+                        insertDataIntoRealTimeDataBase(fullName, email, address, userId[0]);
+                    }
+                }
+            }
+        });
+        return new RegistrationModel(false, "Registration Failed");
+    }
+
+    private RegistrationModel insertDataIntoRealTimeDataBase(
+            String fullName,
+            String email,
+            String address,
+            String userId
+    ) {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("users")
+                .child(userId)
+                .child("full_name")
+                .setValue(fullName).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+        databaseReference.child("users").child(userId).child("email").setValue(email);
+        databaseReference.child("users").child(userId).child("address").setValue(address);
+        return new RegistrationModel(false, "Registration Failed");
     }
 }
