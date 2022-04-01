@@ -21,6 +21,9 @@
             android:name="@string/args_show_bottom_navigation_view"
             app:argType="boolean"
             android:defaultValue="true"/>
+        <action
+            android:id="@+id/action_homeFragment_to_addFactFragment"
+            app:destination="@id/addFactFragment" />
 
     </fragment>
 
@@ -68,5 +71,19 @@
         android:name="np.com.rishavchudal.test.NotificationDetailFragment"
         android:label="fragment_notification_detail"
         tools:layout="@layout/fragment_notification_detail" />
+    <fragment
+        android:id="@+id/addFactFragment"
+        android:name="np.com.rishavchudal.test.presentation.dashboard.AddFactFragment"
+        android:label="fragment_add_fact"
+        tools:layout="@layout/fragment_add_fact">
+        <argument
+            android:name="@string/args_show_toolbar"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="@string/args_show_bottom_navigation_view"
+            app:argType="boolean"
+            android:defaultValue="false"/>
+    </fragment>
 
 </navigation>

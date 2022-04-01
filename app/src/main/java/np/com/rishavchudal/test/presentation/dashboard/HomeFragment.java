@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 import np.com.rishavchudal.domain.models.facts.Fact;
@@ -20,7 +24,7 @@ import np.com.rishavchudal.test.R;
 import np.com.rishavchudal.test.presentation.dashboard.adapter.FactRecyclerAdapter;
 
 public class HomeFragment extends Fragment {
-    private Button btnHomeFragment;
+    private FloatingActionButton favAddFact;
     private RecyclerView factsRecyclerView;
     private DashboardViewModel dashboardViewModel;
 
@@ -55,15 +59,15 @@ public class HomeFragment extends Fragment {
     }
 
     private void initWidgets(View view) {
-        btnHomeFragment = view.findViewById(R.id.btn_home_fragment);
+        favAddFact = view.findViewById(R.id.fav_add_fact);
         factsRecyclerView = view.findViewById(R.id.facts_recycler_view);
     }
 
     private void initButtonAction() {
-        btnHomeFragment.setOnClickListener(new View.OnClickListener() {
+        favAddFact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_addFactFragment);
             }
         });
     }

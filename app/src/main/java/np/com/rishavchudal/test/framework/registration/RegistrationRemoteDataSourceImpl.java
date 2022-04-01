@@ -6,13 +6,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -68,23 +64,13 @@ public class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataS
             String address,
             String userId
     ) {
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("users")
-                .child(userId)
-                .child("full_name")
-                .setValue(fullName).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
+        databaseReference = FirebaseDatabase
+                .getInstance("https://ismt-test-project-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference();
+        databaseReference.child("users").child(userId).child("full_name").setValue(fullName);
         databaseReference.child("users").child(userId).child("email").setValue(email);
         databaseReference.child("users").child(userId).child("address").setValue(address);
+
         return new RegistrationModel(false, "Registration Failed");
     }
 }
